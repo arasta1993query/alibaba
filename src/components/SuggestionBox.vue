@@ -1,15 +1,14 @@
 <script setup>
   defineProps({
-    show: Boolean
+    show: Boolean,
+    options: Array,
+    selected: Number
   })
 </script>
 
 <template>
-  <div class="box" :class="{active: show}">
-    <div class="option active">Apple</div>
-    <div class="option">Apple</div>
-    <div class="option">Apple</div>
-    <div class="option">Apple</div>
+  <div class="box" :class="{active: show && options.length > 0}">
+    <div class="option" v-for="option in options">{{option.item}}</div>
   </div>
 </template>
 
@@ -18,7 +17,7 @@
 <style lang="scss" scoped>
   .box{
     width: calc(100% - 26px);
-    height: 0;
+    max-height: 0;
     opacity: 0;
     position: absolute;
     top: 0;
@@ -32,7 +31,7 @@
     transition: all 0.5s ease-in-out;
 
     &.active{
-      height: 144px;
+      max-height: 144px;
       opacity: 1;
       top: 100%;
     }

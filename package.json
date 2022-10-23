@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "fuse.js": "^6.6.2",
     "vue": "^3.2.41"
   },
   "devDependencies": {

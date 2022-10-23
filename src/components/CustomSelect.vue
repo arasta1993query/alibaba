@@ -1,8 +1,30 @@
 <script setup>
 import SuggestionBox from "@/components/SuggestionBox.vue";
 import Tag from "@/components/Tag.vue";
-import {ref} from "vue";
+import Fuse from 'fuse.js'
+import {ref, watch} from "vue";
 const suggestionStatus = ref(false)
+const search = ref('')
+const searchResult = ref([])
+const selected = ref(0)
+const myList = ['aaaa', 'bbbb', 'cccc', 'abc', 'xyz']
+
+const options = {
+  includeScore: true,
+  findAllMatches: true
+}
+const fuse = new Fuse(myList, options)
+
+watch(search , (val) => {
+  searchResult.value = fuse.search(val)
+})
+
+const selectResult = (step) => {
+  if(step + selected.value < 0 || step  + selected.value > selectResult.value.length){
+    return
+  }
+  selected.value += step
+}
 
 const activeSuggestion = (val) => {
   suggestionStatus.value = val
@@ -20,8 +42,22 @@ const focusOutHandler = ($event) => {
 
 <template>
   <div class="custom-select">
-    <input type="text" class="input" @focus="focusInHandler" @blur="focusOutHandler" @keydown.esc="activeSuggestion(false)" placeholder="Add tags...">
-    <SuggestionBox :show="suggestionStatus" />
+    <input
+        type="text"
+        class="input"
+        v-model="search"
+        @focus="focusInHandler"
+        @blur="focusOutHandler"
+        @keydown.esc="activeSuggestion(false)"
+        @keydown.down="selectResult(-1)"
+        @keydown.up="selectResult(1)"
+        placeholder="Add tags..."
+    >
+    <SuggestionBox
+        :show="suggestionStatus"
+        :options="searchResult"
+        :selected="selected"
+    />
   </div>
   <div class="tags">
     <Tag>JavaScript</Tag>
