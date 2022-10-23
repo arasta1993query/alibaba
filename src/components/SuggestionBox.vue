@@ -1,14 +1,25 @@
 <script setup>
-  defineProps({
+  const props = defineProps({
     show: Boolean,
     options: Array,
     selected: Number
   })
+  const emit = defineEmits(['hover'])
+  const hoverOption = (index) => {
+    emit('hover' , index - props.selected)
+  }
 </script>
 
 <template>
   <div class="box" :class="{active: show && options.length > 0}">
-    <div class="option" v-for="option in options">{{option.item}}</div>
+    <div
+        class="option"
+        :class="{active: selected === index}"
+        v-for="(option, index) in options"
+        @mouseover="hoverOption(index)"
+    >
+      {{option.item}}
+    </div>
   </div>
 </template>
 

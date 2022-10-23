@@ -20,7 +20,7 @@ watch(search , (val) => {
 })
 
 const selectResult = (step) => {
-  if(step + selected.value < 0 || step  + selected.value > selectResult.value.length){
+  if(step + selected.value < 0 || step  + selected.value > searchResult.value.length - 1){
     return
   }
   selected.value += step
@@ -49,14 +49,15 @@ const focusOutHandler = ($event) => {
         @focus="focusInHandler"
         @blur="focusOutHandler"
         @keydown.esc="activeSuggestion(false)"
-        @keydown.down="selectResult(-1)"
-        @keydown.up="selectResult(1)"
+        @keydown.down="selectResult(1)"
+        @keydown.up="selectResult(-1)"
         placeholder="Add tags..."
     >
     <SuggestionBox
         :show="suggestionStatus"
         :options="searchResult"
         :selected="selected"
+        @hover="selectResult"
     />
   </div>
   <div class="tags">
