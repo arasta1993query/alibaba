@@ -34,6 +34,10 @@ createServer({
                     {
                         id: 'samsung',
                         label: 'Samsung'
+                    },
+                    {
+                        id: 'mc-donald',
+                        label: 'McDonald'
                     }
                 ],
             }

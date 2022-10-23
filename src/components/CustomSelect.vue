@@ -52,7 +52,6 @@ const suggestionStatusHandler = (val) => {
     selected.value = 0
   }
   suggestionStatus.value = val
-
 }
 
 const focusInHandler = ($event) => {

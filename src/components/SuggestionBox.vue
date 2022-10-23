@@ -1,9 +1,15 @@
 <script setup>
+import {ref, watch} from "vue";
+
+const BOX_LENGTH = 4
+
   const props = defineProps({
     show: Boolean,
     options: Array,
     selected: Number
   })
+
+  const list = ref([])
   const emit = defineEmits(['hover','select'])
   const hoverOption = (index) => {
     emit('hover' , index - props.selected)
@@ -12,6 +18,15 @@
   const selectResult = () => {
     emit('select' )
   }
+
+  watch(() => props.selected, (newVal) => {
+    console.log('test' , newVal)
+    const element = list.value.find(l => {
+      return l.classList[1] === 'active'
+    })
+
+    element.scrollIntoView({behavior: "smooth", block: newVal >= BOX_LENGTH ? "start" : "end" , inline: "nearest"})
+  })
 </script>
 
 <template>
@@ -22,6 +37,7 @@
         v-for="(option, index) in options"
         @mouseover="hoverOption(index)"
         @click="selectResult"
+        ref="list"
     >
       {{option.item.label}}
     </div>
