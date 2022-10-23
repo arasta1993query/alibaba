@@ -1,13 +1,27 @@
 <script setup>
 import SuggestionBox from "@/components/SuggestionBox.vue";
 import Tag from "@/components/Tag.vue";
+import {ref} from "vue";
+const suggestionStatus = ref(false)
+
+const activeSuggestion = (val) => {
+  suggestionStatus.value = val
+}
+
+const focusInHandler = ($event) => {
+  activeSuggestion(true)
+}
+
+const focusOutHandler = ($event) => {
+  activeSuggestion(false)
+}
 
 </script>
 
 <template>
   <div class="custom-select">
-    <input type="text" class="input" placeholder="Add tags...">
-    <SuggestionBox />
+    <input type="text" class="input" @focus="focusInHandler" @blur="focusOutHandler" @keydown.esc="activeSuggestion(false)" placeholder="Add tags...">
+    <SuggestionBox :show="suggestionStatus" />
   </div>
   <div class="tags">
     <Tag>JavaScript</Tag>
@@ -33,11 +47,11 @@ import Tag from "@/components/Tag.vue";
     border-radius: 8px;
     outline: none;
     font-family: 'Roboto', sans-serif;
+    z-index: 3;
 
     &:focus {
       box-shadow: 0px 4px 8px -2px rgba(27, 46, 94, 0.04);
       border: 1px solid #F8F8F8;
-
     }
     &::placeholder{
       color: #BABFC7;
