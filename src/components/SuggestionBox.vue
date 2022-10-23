@@ -4,9 +4,13 @@
     options: Array,
     selected: Number
   })
-  const emit = defineEmits(['hover'])
+  const emit = defineEmits(['hover','select'])
   const hoverOption = (index) => {
     emit('hover' , index - props.selected)
+  }
+
+  const selectResult = () => {
+    emit('select' )
   }
 </script>
 
@@ -17,6 +21,7 @@
         :class="{active: selected === index}"
         v-for="(option, index) in options"
         @mouseover="hoverOption(index)"
+        @click="selectResult"
     >
       {{option.item}}
     </div>

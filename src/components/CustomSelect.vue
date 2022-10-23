@@ -8,6 +8,7 @@ const search = ref('')
 const searchResult = ref([])
 const selected = ref(0)
 const myList = ['aaaa', 'bbbb', 'cccc', 'abc', 'xyz']
+const tagList = ref([])
 
 const options = {
   includeScore: true,
@@ -19,11 +20,19 @@ watch(search , (val) => {
   searchResult.value = fuse.search(val)
 })
 
-const selectResult = (step) => {
+const changeOption = (step) => {
   if(step + selected.value < 0 || step  + selected.value > searchResult.value.length - 1){
     return
   }
   selected.value += step
+}
+
+const selectResult = () => {
+  if(searchResult.value[selected.value]){
+    tagList.value.push(searchResult.value[selected.value].item)
+    return
+  }
+  tagList.value.push(search.value)
 }
 
 const activeSuggestion = (val) => {
@@ -49,20 +58,21 @@ const focusOutHandler = ($event) => {
         @focus="focusInHandler"
         @blur="focusOutHandler"
         @keydown.esc="activeSuggestion(false)"
-        @keydown.down="selectResult(1)"
-        @keydown.up="selectResult(-1)"
+        @keydown.down="changeOption(1)"
+        @keydown.up="changeOption(-1)"
+        @keydown.enter="selectResult()"
         placeholder="Add tags..."
     >
     <SuggestionBox
         :show="suggestionStatus"
         :options="searchResult"
         :selected="selected"
-        @hover="selectResult"
+        @hover="changeOption"
+        @select="selectResult"
     />
   </div>
   <div class="tags">
-    <Tag>JavaScript</Tag>
-    <Tag>Practice</Tag>
+    <Tag v-for="tag in tagList">{{ tag }}</Tag>
   </div>
 </template>
 
