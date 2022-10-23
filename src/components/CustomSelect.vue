@@ -1,5 +1,6 @@
 <script setup>
 import SuggestionBox from "@/components/SuggestionBox.vue";
+import Tag from "@/components/Tag.vue";
 
 </script>
 
@@ -7,6 +8,10 @@ import SuggestionBox from "@/components/SuggestionBox.vue";
   <div class="custom-select">
     <input type="text" class="input" placeholder="Add tags...">
     <SuggestionBox />
+  </div>
+  <div class="tags">
+    <Tag>JavaScript</Tag>
+    <Tag>Practice</Tag>
   </div>
 </template>
 
@@ -37,5 +42,12 @@ import SuggestionBox from "@/components/SuggestionBox.vue";
     &::placeholder{
       color: #BABFC7;
     }
+  }
+
+  .tags{
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
   }
 </style>
