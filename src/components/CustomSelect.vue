@@ -27,12 +27,13 @@ const changeOption = (step) => {
   selected.value += step
 }
 
-const selectResult = () => {
-  if(searchResult.value[selected.value]){
+const selectResult = (fromInput) => {
+  if(!fromInput && searchResult.value[selected.value]){
     tagList.value.push(searchResult.value[selected.value].item)
     return
   }
-  tagList.value.push(search.value)
+  tagList.value.push(search.value.replace(',' , ''))
+  search.value = ''
 }
 
 const activeSuggestion = (val) => {
@@ -60,7 +61,8 @@ const focusOutHandler = ($event) => {
         @keydown.esc="activeSuggestion(false)"
         @keydown.down="changeOption(1)"
         @keydown.up="changeOption(-1)"
-        @keydown.enter="selectResult()"
+        @keydown.enter="selectResult(false)"
+        @keyup.,="selectResult(true)"
         placeholder="Add tags..."
     >
     <SuggestionBox
@@ -68,7 +70,7 @@ const focusOutHandler = ($event) => {
         :options="searchResult"
         :selected="selected"
         @hover="changeOption"
-        @select="selectResult"
+        @select="selectResult(false)"
     />
   </div>
   <div class="tags">
