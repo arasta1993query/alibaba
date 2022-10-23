@@ -2,19 +2,30 @@
 import SuggestionBox from "@/components/SuggestionBox.vue";
 import Tag from "@/components/Tag.vue";
 import Fuse from 'fuse.js'
-import {ref, watch} from "vue";
+import {onMounted, ref, toRaw, watch} from "vue";
 const suggestionStatus = ref(false)
 const search = ref('')
 const searchResult = ref([])
 const selected = ref(0)
-const myList = ['aaaa', 'bbbb', 'cccc', 'abc', 'xyz']
+const myList = ref([])
 const tagList = ref([])
+
+
 
 const options = {
   includeScore: true,
-  findAllMatches: true
+  keys: ['id','label']
 }
-const fuse = new Fuse(myList, options)
+let fuse = null
+
+onMounted(() => {
+  fetch("/api/list")
+      .then((res) => res.json())
+      .then((json) => {
+        myList.value = json.list
+        fuse = new Fuse(toRaw(myList.value), options)
+      })
+})
 
 watch(search , (val) => {
   searchResult.value = fuse.search(val)
@@ -29,23 +40,27 @@ const changeOption = (step) => {
 
 const selectResult = (fromInput) => {
   if(!fromInput && searchResult.value[selected.value]){
-    tagList.value.push(searchResult.value[selected.value].item)
+    tagList.value.push(searchResult.value[selected.value].item.label)
     return
   }
   tagList.value.push(search.value.replace(',' , ''))
   search.value = ''
 }
 
-const activeSuggestion = (val) => {
+const suggestionStatusHandler = (val) => {
+  if(val){
+    selected.value = 0
+  }
   suggestionStatus.value = val
+
 }
 
 const focusInHandler = ($event) => {
-  activeSuggestion(true)
+  suggestionStatusHandler(true)
 }
 
 const focusOutHandler = ($event) => {
-  activeSuggestion(false)
+  suggestionStatusHandler(false)
 }
 
 </script>
@@ -58,7 +73,7 @@ const focusOutHandler = ($event) => {
         v-model="search"
         @focus="focusInHandler"
         @blur="focusOutHandler"
-        @keydown.esc="activeSuggestion(false)"
+        @keydown.esc="suggestionStatusHandler(false)"
         @keydown.down="changeOption(1)"
         @keydown.up="changeOption(-1)"
         @keydown.enter="selectResult(false)"

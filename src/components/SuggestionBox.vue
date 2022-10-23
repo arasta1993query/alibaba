@@ -23,7 +23,7 @@
         @mouseover="hoverOption(index)"
         @click="selectResult"
     >
-      {{option.item}}
+      {{option.item.label}}
     </div>
   </div>
 </template>
@@ -42,7 +42,7 @@
     padding: 8px;
     box-shadow: 0px 8px 24px -4px rgba(27, 46, 94, 0.12);
     border-radius: 8px;
-    overflow: hidden;
+    overflow: auto;
     z-index: 2;
     transition: all 0.5s ease-in-out;
 
