@@ -1,14 +1,15 @@
 # alibaba
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a Tag Input code challenge 
 
-## Recommended IDE Setup
+## How does it work
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+You can type input and get a suggestion in the suggestion box, then you can select your options from suggested options by pressing the arrow up and down button on the keyboard and pressing enter or clicking on the option.
+you also can add tags beyond the suggestion with press the comma button
 
-## Customize configuration
+## Customize suggestion
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+This is a test project and using MirageJS for mocking the backend, you can change suggestion list APIs from /src/server
 
 ## Project Setup
 
