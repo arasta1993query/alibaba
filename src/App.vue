@@ -1,5 +1,4 @@
 <script setup>
-
 import CustomSelect from "@/components/CustomSelect.vue";
 </script>
 
@@ -10,8 +9,7 @@ import CustomSelect from "@/components/CustomSelect.vue";
 </template>
 
 <style scoped>
-
-.app{
+.app {
   margin: auto;
   text-align: center;
   width: 200px;
